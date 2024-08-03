@@ -3,17 +3,21 @@ import axios from "axios";
 
 const News = () => {
   const [articles, setArticles] = useState([]);
-  const apiKey = process.env.REACT_APP_NEWS_API_KEY; // Access the API key from environment variable
+  const apiKey = '1f24857ada8f466896c105f3694539b3'; // Hardcoded API key for testing
 
   useEffect(() => {
     const fetchNews = async () => {
       try {
         const response = await axios.get(
-          `https://newsapi.org/v2/everything?q=climate&apiKey=1f24857ada8f466896c105f3694539b3`
+          `https://newsapi.org/v2/everything?q=climate&apiKey=${apiKey}`
         );
         setArticles(response.data.articles.slice(0, 15));
       } catch (error) {
-        console.error("Error fetching news:", error);
+        console.error("Error fetching news:", {
+          message: error.message,
+          response: error.response ? error.response.data : null,
+          status: error.response ? error.response.status : null,
+        });
       }
     };
     fetchNews();
